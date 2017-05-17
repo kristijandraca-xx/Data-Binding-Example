@@ -1,14 +1,15 @@
 package com.kristijandraca.databindingexample;
 
-import android.support.v7.app.AppCompatActivity;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.kristijandraca.databindingexample.adapters.UsersAdapter;
+import com.kristijandraca.databindingexample.databinding.ActivityMainBinding;
 import com.kristijandraca.databindingexample.models.User;
 
 import java.io.BufferedReader;
@@ -22,13 +23,12 @@ public class MainActivity extends AppCompatActivity implements UsersAdapter.User
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         List<User> data = getSampleData();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new UsersAdapter(this, data, this));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(new UsersAdapter(this, data, this));
 
     }
 
