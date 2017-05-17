@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+
+    <data>
+
+        <import type="com.kristijandraca.databindingexample.models.User" />
+
+        <import type="com.kristijandraca.databindingexample.adapters.UsersAdapter.UserHandler" />
+
+        <variable
+            name="user"
+            type="User" />
+
+        <variable
+            name="handler"
+            type="UserHandler" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> handler.onUserClick(user)}"
+        android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -21,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@{@string/format_name(user.firstName, user.lastName)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:text="Gordon Freeman" />
             <TextView
@@ -28,8 +47,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@{user.company}"
                 tools:text="Black Mesa Research Facility" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
+</layout>

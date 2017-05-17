@@ -1,12 +1,14 @@
 package com.kristijandraca.databindingexample.adapters;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.kristijandraca.databindingexample.BR;
 import com.kristijandraca.databindingexample.R;
 import com.kristijandraca.databindingexample.models.User;
 
@@ -39,16 +41,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final User item = list.get(position);
-
-        holder.tvName.setText(String.format(context.getString(R.string.format_name), item.getFirstName(), item.getLastName()));
-        holder.tvCompany.setText(item.getCompany() != null ? item.getCompany() : context.getString(R.string.unemployed));
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onUserClick(item);
-            }
-        });
+        holder.binding.setVariable(BR.user, item);
+        holder.binding.setVariable(BR.handler, listener);
+        holder.binding.executePendingBindings();
     }
 
 
@@ -61,12 +56,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         void onUserClick(User item);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvName, tvCompany;
-        public ViewHolder(View itemView) {
-            super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvCompany = (TextView) itemView.findViewById(R.id.tv_company);
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private ViewDataBinding binding;
+
+        ViewHolder(View v) {
+            super(v);
+            binding = DataBindingUtil.bind(v);
         }
     }
 }
